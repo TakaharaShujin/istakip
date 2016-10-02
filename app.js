@@ -48,6 +48,12 @@ app.get('/anasayfa', function (request, response) {
   response.render('anasayfa.html')
 })
 
+app.get('/cikis', function (request, response) {
+  request.session.destroy(function () {
+    return response.redirect('/giris')
+  })
+})
+
 app.get('/giris', function (request, response) {
   response.render('giris.html')
 })
@@ -63,10 +69,6 @@ app.post('/giris', function (request, response) {
     request.flash('error', 'Yanlış kullanıcı adı veya şifre')
     response.redirect('/giris')
   }
-})
-
-app.get('/', function (request, response) {
-  response.end('obarey')
 })
 
 module.exports = app
