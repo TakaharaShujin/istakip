@@ -1,5 +1,6 @@
 'use strict'
 
+// Dependencies
 const bodyParser = require('body-parser')
 const connectRedis = require('connect-redis')
 const cookieParser = require('cookie-parser')
@@ -10,7 +11,10 @@ const nunjucks = require('nunjucks')
 const path = require('path')
 const redisClient = require('./redisClient')
 
+// Create new express application
 const app = express()
+
+// Create new redis connection
 const RedisStore = connectRedis(expressSession)
 
 // Middleware
@@ -21,13 +25,16 @@ nunjucks.configure(path.join(__dirname, 'views'), {
   noCache: true
 })
 
+// Post yapılan formlardan gelen değerleri kullanabilmemiz için
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// Cookie desteği eklemek için
 app.use(cookieParser('asdmaskdamk2kd2mkdn3jf'))
 
+// Session desteği eklemek için
 app.use(expressSession({
-  store: new RedisStore({
+  store: new RedisStore({ // sessionları rediste tutmak için
     client: redisClient
   }),
   secret: 'asjdasnjdansdjasnj3',
@@ -35,8 +42,12 @@ app.use(expressSession({
   saveUninitialized: true
 }))
 
+// Sadece bir kere gösterilecek uyarı/mesaj/hataları kullanabilmek için
 app.use(expressFlash())
 
+// Login değilse ve login gereken bir sayfaya erişiyorsa
+// veya loginse ama login olmaması gereken bir sayfaya erişiyorsa
+// ilgili yönlendirmeleri yapıyor
 app.use(function (request, response, next) {
   if (!request.session.girisYapti && request.url !== '/giris') {
     request.flash('error', 'Sistemi kullanbilmek icin giris yapmaniz lazimdir')
@@ -53,19 +64,19 @@ app.use(function (request, response, next) {
 // Route - sayfalar
 
 app.get('/anasayfa', function (request, response) {
-  response.render('anasayfa.html', {
+  return response.render('anasayfa.html', {
     name: request.session.name
   })
 })
 
 app.get('/cikis', function (request, response) {
-  request.session.destroy(function () {
+  return request.session.destroy(function () {
     return response.redirect('/giris')
   })
 })
 
 app.get('/giris', function (request, response) {
-  response.render('giris.html')
+  return response.render('giris.html')
 })
 
 app.post('/giris', function (request, response) {
@@ -75,10 +86,10 @@ app.post('/giris', function (request, response) {
   if (email === 'a@abc.com' && password === '123') {
     request.session.girisYapti = true
     request.session.name = 'Giray'
-    response.redirect('/anasayfa')
+    return response.redirect('/anasayfa')
   } else {
     request.flash('error', 'Yanlış kullanıcı adı veya şifre')
-    response.redirect('/giris')
+    return response.redirect('/giris')
   }
 })
 
