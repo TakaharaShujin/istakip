@@ -1,0 +1,16 @@
+SQL veritabanlarında (örneğin MSSQL, MySQL, PostgreSQL): veritabanı içindeki bölümlere tablo (table) denir
+NoSQL veritabanlarında (örneği MongoDB, Redis, vs.. ): veritabanı içindeki bölümlere collection denir
+
+ORM'Lerde (örneğin java hibernate, .net MVC, mongoose): tablo veya collection'lara şema (schema) denir
+
+***
+
+herhangi bir js dosyasında (özellikle kendi kütüphanen olarak kullanacağın dosyalarda)
+- örneğin db.js 'te
+o kütüphanede module.exports = kutuphanedekiDegisken olarak tanımladığın değişken/sınıf/fonksiyon u
+başka bir kütüphanenin/dosyanın içerisinde 'var degisken = require(./db.js) gibi çağırdığın zaman
+degisken = kutuphanedekiDegisken olur.
+
+yani herhangi bir dosyanın sonuna 'module.export = ...' koyup
+başka bir dosyadan require ile çağırdığımızda aslında çağırdığımız dosyayı (kendi yazdığımız) kütüphane gibi kullanıyoruz
+ 
