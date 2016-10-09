@@ -22,6 +22,13 @@ const UserClass = require('./db')
 
 // Middleware
 
+// Bower'la yüklediğimiz dosyaların bulunduğu bower_components i yayınlıyoruz
+app.use('/bower', express.static('./bower_components'))
+
+// Kendi static dosyalarımızı yayınlamak için
+app.use('/static', express.static('./static'))
+
+// template engine - html render etmek için
 nunjucks.configure(path.join(__dirname, 'views'), {
   autoescape: false,
   express: app,
@@ -63,7 +70,7 @@ app.get('/ilk-kullaniciyi-olustur', function (request, response) {
       return response.end('Kullanici olusturulamadi')
     } else {
       request.flash('info', 'İlk kullanici olusturuldu!')
-      return response.redirect('/anasayfa')
+      return response.redirect('/')
     }
   })
 })
@@ -77,7 +84,7 @@ app.use(function (request, response, next) {
     return response.redirect('/giris')
   } else {
     if (request.session.girisYapti && request.url === '/giris') {
-      return response.redirect('/anasayfa')
+      return response.redirect('/')
     } else {
       next()
     }
@@ -86,7 +93,7 @@ app.use(function (request, response, next) {
 
 // Route - sayfalar
 
-app.get('/anasayfa', function (request, response) {
+app.get('/', function (request, response) {
   return response.render('anasayfa.html', {
     user: request.session.user
   })
@@ -117,7 +124,7 @@ app.post('/giris', function (request, response) {
 
     request.session.girisYapti = true
     request.session.user = user
-    return response.redirect('/anasayfa')
+    return response.redirect('/')
   })
 })
 
