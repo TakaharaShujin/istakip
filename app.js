@@ -95,6 +95,14 @@ app.use(function (request, response, next) {
 
 app.get('/', function (request, response) {
   return response.render('anasayfa.html', {
+    page: 'anasayfa',
+    user: request.session.user
+  })
+})
+
+app.get('/islerim', function (request, response) {
+  return response.render('islerim.html', {
+    page: 'islerim',
     user: request.session.user
   })
 })
