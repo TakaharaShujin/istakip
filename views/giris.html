@@ -7,6 +7,10 @@
 <h1>Sisteme giriş</h1>
 <p>Sistemi kullanmak için lütfen giriş yapınız</p>
 
+{% if messages.info %}
+  <p>{{ messages.info }}</p>
+{% endif %}
+
 {% if messages.error %}
   <p>{{ messages.error }}</p>
 {% endif %}

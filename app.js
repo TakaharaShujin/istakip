@@ -45,6 +45,27 @@ app.use(expressSession({
 // Sadece bir kere gösterilecek uyarı/mesaj/hataları kullanabilmek için
 app.use(expressFlash())
 
+// Ilk kullaniciyi olusturma giristen once olmasi lazim
+// cunku veritabaninda kullanici olmadigi icin nereye giris yapacaklar
+app.get('/ilk-kullaniciyi-olustur', function (request, response) {
+  var UserClass = require('./db')
+  var newuser = new UserClass({
+    name: 'Giray Yapici',
+    email: 'giraydan@gmail.com',
+    password: '123',
+    isAdministrator: true
+  })
+  newuser.save(function (err) {
+    if (err) {
+      console.log(err)
+      return response.end('Kullanici olusturulamadi')
+    } else {
+      request.flash('info', 'İlk kullanici olusturuldu!')
+      return response.redirect('/anasayfa')
+    }
+  })
+})
+
 // Login değilse ve login gereken bir sayfaya erişiyorsa
 // veya loginse ama login olmaması gereken bir sayfaya erişiyorsa
 // ilgili yönlendirmeleri yapıyor
