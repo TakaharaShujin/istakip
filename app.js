@@ -17,6 +17,9 @@ const app = express()
 // Create new redis connection
 const RedisStore = connectRedis(expressSession)
 
+// Veritabani modellerimizi tanimliyoruz
+const UserClass = require('./db')
+
 // Middleware
 
 nunjucks.configure(path.join(__dirname, 'views'), {
@@ -48,7 +51,6 @@ app.use(expressFlash())
 // Ilk kullaniciyi olusturma giristen once olmasi lazim
 // cunku veritabaninda kullanici olmadigi icin nereye giris yapacaklar
 app.get('/ilk-kullaniciyi-olustur', function (request, response) {
-  var UserClass = require('./db')
   var newuser = new UserClass({
     name: 'Giray Yapici',
     email: 'giraydan@gmail.com',
@@ -86,7 +88,7 @@ app.use(function (request, response, next) {
 
 app.get('/anasayfa', function (request, response) {
   return response.render('anasayfa.html', {
-    name: request.session.name
+    user: request.session.user
   })
 })
 
@@ -104,14 +106,19 @@ app.post('/giris', function (request, response) {
   let email = request.body.email
   let password = request.body.password
 
-  if (email === 'a@abc.com' && password === '123') {
+  UserClass.findOne({
+    email: email,
+    password: password
+  }, function (err, user) {
+    if (err || !user) {
+      request.flash('error', 'Yanlış kullanıcı adı veya şifre')
+      return response.redirect('/giris')
+    }
+
     request.session.girisYapti = true
-    request.session.name = 'Giray'
+    request.session.user = user
     return response.redirect('/anasayfa')
-  } else {
-    request.flash('error', 'Yanlış kullanıcı adı veya şifre')
-    return response.redirect('/giris')
-  }
+  })
 })
 
 module.exports = app
