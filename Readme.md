@@ -1,6 +1,14 @@
 # İş takip sistemi
 
 ## Kurulum (geliştirmek için)
+### Gereksinimler:
+* Git (https://git-scm.com/download/win)
+* Node.js (https://nodejs.org/en/download/)
+* Bower (npm install -g bower)
+* Nodemon (npm install -g nodemon)
+* Redis (https://github.com/MSOpenTech/redis/releases)
+* MongoDB (https://www.mongodb.com/download-center)
+
 Github'dan proje indirilir:
 ```sh
 git clone https://github.com/yasinaydin/istakip
