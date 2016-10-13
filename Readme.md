@@ -1,4 +1,5 @@
 # İş takip sistemi
+Node.js öğrenme/öğretme amacıyla yapılmış örnek bir uygulama.
 
 ## Kurulum (geliştirmek için)
 ### Gereksinimler:
