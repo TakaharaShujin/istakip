@@ -130,6 +130,17 @@ app.get('/kullanicilar', checkAdminRights, function (request, response) {
   })
 })
 
+app.get('/kullanici-sil/:id', checkAdminRights, function (request, response) {
+  Users.findOne({
+    _id: request.params.id
+  }, function (e, selectedUser) {
+    selectedUser.remove()
+    request.flash('warning', 'Kullanıcı silindi!')
+    // @TODO login olan o kisiye ait sessionlari da sil
+    return response.redirect('/kullanicilar')
+  })
+})
+
 app.get('/kullanici/:id', checkAdminRights, function (request, response) {
   Users.findOne({
     _id: request.params.id
