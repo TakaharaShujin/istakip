@@ -1,24 +1,23 @@
-<!doctype html>
-<html lang="tr">
-<head>
-  <title>Giriş</title>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>İşTakip - Anasayfa</title>
+  <link href="/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/signin.css" rel="stylesheet">
 </head>
 <body>
-<h1>Sisteme giriş</h1>
-<p>Sistemi kullanmak için lütfen giriş yapınız</p>
-
-{% if messages.info %}
-  <p>{{ messages.info }}</p>
-{% endif %}
-
-{% if messages.error %}
-  <p>{{ messages.error }}</p>
-{% endif %}
-
-<form method="post" action="">
-<input name="email" type="email" value="a@abc.com" placeholder="E-posta adresiniz" required autofocus>
-<input name="password" type="password" value="123" placeholder="Şifreniz" required>
-<input type="submit" value="Giriş" />
-</form>
+  <div class="container">
+    <form class="form-signin" method="post" action="">
+      <h2 class="form-signin-heading">İştakip Giriş</h2>
+      <label for="inputEmail" class="sr-only">E-posta adresi</label>
+      <input name="email" type="email" id="inputEmail" class="form-control" placeholder="E-posta adresi" required autofocus>
+      <label for="inputPassword" class="sr-only">Şifre</label>
+      <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Şifre" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş</button>
+    </form>
+  </div>
 </body>
 </html>
