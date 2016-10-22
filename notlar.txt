@@ -8,7 +8,7 @@ ORM'Lerde (örneğin java hibernate, .net MVC, mongoose): tablo veya collection'
 herhangi bir js dosyasında (özellikle kendi kütüphanen olarak kullanacağın dosyalarda)
 - örneğin db.js 'te
 o kütüphanede module.exports = kutuphanedekiDegisken olarak tanımladığın değişken/sınıf/fonksiyon u
-başka bir kütüphanenin/dosyanın içerisinde 'var degisken = require(./db.js) gibi çağırdığın zaman
+başka bir kütüphanenin/dosyanın içerisinde 'var degisken = require(./lib/db.js) gibi çağırdığın zaman
 degisken = kutuphanedekiDegisken olur.
 
 yani herhangi bir dosyanın sonuna 'module.export = ...' koyup
