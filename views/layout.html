@@ -33,30 +33,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li class="{% if page =='anasayfa'%}active{% endif %}">
-          <a href="/">Giriş
-            {% if page =='anasayfa'%}<span class="sr-only">(current)</span>{% endif %}
-          </a>
-        </li>
-        <li class="{% if page =='islerim'%}active{% endif %}">
-          <a href="/islerim">İşlerim
-            {% if page =='islerim'%}<span class="sr-only">(current)</span>{% endif %}
-          </a>
-        </li>
-      </ul>
-      {% if user.isAdministrator %}
-      <ul class="nav nav-sidebar">
-        <li><a href="">Kullanıcılar</a></li>
-        <li><a href="">Yeni iş oluşturma</a></li>
-        <li><a href="">Tüm işler</a></li>
-      </ul>
-      {% endif %}
+      {% include "./_leftMenu.html" %}
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      
-      {% block pageContent %}{% endblock %}
+      {% include "./_alerts.html" %}
 
+      {% block pageContent %}{% endblock %}
     </div>
   </div>
 </div>
