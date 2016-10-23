@@ -1,0 +1,22 @@
+<table class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>Ad Soyad</th>
+      <th>E-posta</th>
+      <th>Üye olma</th>
+      <th>Son güncelleme</th>
+      <th>Yönetici mi?</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in records %}
+      <tr>
+        <td><a href="/edit/User/{{ record._id }}">{{ record.name }}</a></td>
+        <td>{{ record.email }}</td>
+        <td>{{ moment(record.createdAt).format('DD MMMM YYYY') }}</td>
+        <td>{{ moment(record.updatedAt).fromNow() }}</td>
+        <td>{% if record.isAdministrator %}Evet{% else %}Hayır{% endif %}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

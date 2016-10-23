@@ -1,0 +1,10 @@
+{% extends "./layout.html" %}
+
+{% block pageContent %}
+
+<a href="/new/{{ modelName }}" class="btn btn-primary pull-right">Yeni {{ name }} Ekle</a>
+<h1 class="page-header">{{ name }} Listesi</h1>
+
+{% include "./list_" + modelName + ".html" %}
+
+{% endblock %}

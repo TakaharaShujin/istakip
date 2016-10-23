@@ -2,9 +2,10 @@
 
 {% block pageContent %}
 
-<h1 class="page-header">Yeni İş Ekle</h1>
+<h1 class="page-header">Yeni {{ name }} Ekle</h1>
 
 {% set saveButtonText = 'Oluştur' %}
-{% include "./_isForm.html" %}
+
+{% include "./form_" + modelName + ".html" %}
 
 {% endblock %}

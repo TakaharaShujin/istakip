@@ -13,14 +13,19 @@
 
 {% if user.isAdministrator %}
 <ul class="nav nav-sidebar">
-  <li class="{% if page =='kullanicilar'%}active{% endif %}">
-    <a href="/kullanicilar">Kullanıcılar
-      {% if page =='kullanicilar'%}<span class="sr-only">(current)</span>{% endif %}
+  <li class="{% if modelName =='User'%}active{% endif %}">
+    <a href="/list/User">Kullanıcılar
+      {% if modelName =='User'%}<span class="sr-only">(current)</span>{% endif %}
     </a>
   </li>
-  <li class="{% if page =='isler'%}active{% endif %}">
-    <a href="/isler">İşler
-      {% if page =='isler'%}<span class="sr-only">(current)</span>{% endif %}
+  <li class="{% if modelName =='Job'%}active{% endif %}">
+    <a href="/list/Job">İşler
+      {% if modelName =='Job'%}<span class="sr-only">(current)</span>{% endif %}
+    </a>
+  </li>
+  <li class="{% if modelName =='JobType'%}active{% endif %}">
+    <a href="/list/JobType">İş Türleri
+      {% if modelName =='JobType'%}<span class="sr-only">(current)</span>{% endif %}
     </a>
   </li>
 </ul>

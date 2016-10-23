@@ -1,0 +1,15 @@
+<form class="form-horizontal" method="post" action="">
+  <div class="form-group">
+    <label for="inputName" class="col-sm-2 control-label">İş Türü Adı</label>
+    <div class="col-sm-4">
+      <input name="form[name]" type="name" class="form-control" id="inputName" placeholder="İş Türü Adı" value="{{ record.name }}">
+    </div>
+  </div>
+  <hr />
+  <div class="form-group">
+    <div class="col-sm-12">
+      <button type="submit" class="btn btn-primary pull-right">{{ saveButtonText }}</button>
+      <a href="/list/{{ modelName }}" class="btn btn-warning pull-left">İptal/Geri Dön</a>
+    </div>
+  </div>
+</form>
