@@ -1,6 +1,6 @@
 // Gereki moduller
 const moment = require('moment')
-const Users = require('../lib/db')
+const Users = require('../lib/db').User
 
 // Moment olarak dil seciyoruz
 moment.locale('tr')

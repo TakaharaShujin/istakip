@@ -1,11 +1,13 @@
 'use strict'
 
 // Dependencies
-const authController = require('./controllers/auth')
 const express = require('express')
+const middleware = require('./lib/middleware')
+
+// Controllers
+const authController = require('./controllers/auth')
 const homeController = require('./controllers/home')
 const jobController = require('./controllers/job')
-const middleware = require('./lib/middleware')
 const userController = require('./controllers/user')
 
 // Create new express application
@@ -30,7 +32,14 @@ app.get('/ilk-kullaniciyi-olustur', authController.createFirstUser)
 
 app.get('/', homeController.home)
 
-app.get('/islerim', jobController.myJobs)
+// app.get('/islerim', jobController.myJobs)
+
+app.get('/isler', checkAdminRights, jobController.list)
+app.get('/is/:id', checkAdminRights, jobController.edit)
+app.post('/is/:id', checkAdminRights, jobController.editPost)
+app.get('/yeni-is', checkAdminRights, jobController.new)
+app.post('/yeni-is', checkAdminRights, jobController.newPost)
+app.get('/is-sil/:id', checkAdminRights, jobController.delete)
 
 app.get('/kullanicilar', checkAdminRights, userController.list)
 app.get('/kullanici/:id', checkAdminRights, userController.edit)

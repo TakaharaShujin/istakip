@@ -18,6 +18,10 @@
       {% if page =='kullanicilar'%}<span class="sr-only">(current)</span>{% endif %}
     </a>
   </li>
-  <li><a href="">İşler</a></li>
+  <li class="{% if page =='isler'%}active{% endif %}">
+    <a href="/isler">İşler
+      {% if page =='isler'%}<span class="sr-only">(current)</span>{% endif %}
+    </a>
+  </li>
 </ul>
 {% endif %}

@@ -1,5 +1,5 @@
 // Gereki moduller
-const Users = require('../lib/db')
+const Users = require('../lib/db').User
 
 // authController nesnesini olusturuyoruz
 const authController = {}

@@ -1,0 +1,4 @@
+// Schema larimizi tanimliyoruz (mongoose daki diger adi Model)
+// SQL de otomatik 1,2,3 diye uretilen 'id' nin MongoDb deki karşılığı '_id' ve örneği nnnjj33dh83dh838dh diye üretliyor
+// Mongoose aksi belirtilmedikçe otomatik olarak _id, created_at ve updated_at kolonlarını da ekliyor
+// Schema türleri: http://mongoosejs.com/docs/schematypes.html
