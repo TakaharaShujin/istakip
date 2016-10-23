@@ -37,10 +37,16 @@ crudController.list = function (request, response) {
 crudController.new = function (request, response) {
   let modelName = request.params.model
 
-  return response.render('crud_new.html', {
-    modelName: modelName,
-    name: namings[modelName],
-    user: request.session.user
+  models.User.find(function (e, users) {
+    models.JobType.find(function (e, jobtypes) {
+      return response.render('crud_new.html', {
+        modelName: modelName,
+        name: namings[modelName],
+        user: request.session.user,
+        users: users,
+        jobtypes: jobtypes
+      })
+    })
   })
 }
 
@@ -51,9 +57,17 @@ crudController.newPost = function (request, response) {
   let modelName = request.params.model
   let Model = models[modelName]
 
-  var record = new Model(request.body.form)
+  var record = new Model()
 
-  record.save(function (e) {
+  for (let key in request.body.form) {
+    record[key] = request.body.form[key]
+  }
+
+  record.save(function (err) {
+    if (err) {
+      throw new Error(err)
+    }
+
     request.flash('success', 'Yeni kayıt eklendi!')
 
     return response.redirect('/list/' + modelName)
