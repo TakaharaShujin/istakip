@@ -19,8 +19,19 @@ const crudController = {}
  */
 crudController.list = function (request, response) {
   let modelName = request.params.model
+  let Model = models[modelName]
 
-  models[modelName].find(function (e, records) {
+  let getter = Model.find()
+
+  if (Model.schema.paths.createdBy) {
+    getter.populate('createdBy')
+  }
+
+  if (Model.schema.paths.assignedTo) {
+    getter.populate('assignedTo')
+  }
+
+  getter.exec(function (e, records) {
     return response.render('crud_list.html', {
       modelName: modelName,
       name: namings[modelName],
@@ -63,6 +74,10 @@ crudController.newPost = function (request, response) {
     record[key] = request.body.form[key]
   }
 
+  if (Model.schema.paths.createdBy) {
+    record.createdBy = request.session.user._id
+  }
+
   record.save(function (err) {
     if (err) {
       throw new Error(err)
@@ -80,14 +95,20 @@ crudController.newPost = function (request, response) {
 crudController.edit = function (request, response) {
   let modelName = request.params.model
 
-  models[modelName].findOne({
-    _id: request.params.id
-  }, function (e, record) {
-    return response.render('crud_edit.html', {
-      modelName: modelName,
-      name: namings[modelName],
-      user: request.session.user,
-      record: record
+  models.User.find(function (e, users) {
+    models.JobType.find(function (e, jobtypes) {
+      models[modelName].findOne({
+        _id: request.params.id
+      }, function (e, record) {
+        return response.render('crud_edit.html', {
+          modelName: modelName,
+          name: namings[modelName],
+          user: request.session.user,
+          record: record,
+          users: users,
+          jobtypes: jobtypes
+        })
+      })
     })
   })
 }

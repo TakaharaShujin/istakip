@@ -1,47 +1,55 @@
 <form class="form-horizontal" method="post" action="">
   <div class="form-group">
-    <label for="inputName" class="col-sm-2 control-label">İş Adı</label>
+    <label for="inputTitle" class="col-sm-2 control-label">İş Adı</label>
     <div class="col-sm-4">
-      <input name="name" type="name" class="form-control" id="inputName" placeholder="İş Adı" value="{{ selectedUser.name }}">
+      <input name="form[title]" type="title" class="form-control" id="inputTitle" placeholder="İş Adı" value="{{ record.title }}">
     </div>
   </div>
   <div class="form-group">
     <label for="inputEmail" class="col-sm-2 control-label">İş Detayı</label>
     <div class="col-sm-4">
-      {#<input name="email" type="email" class="form-control" id="inputEmail" placeholder="İş Detayı" value="{{ selectedUser.email }}">#}
-      <textarea class="form-control" rows="3" placeholder="İş detayı"></textarea>
+      <textarea name="form[description]" class="form-control" rows="3" placeholder="İş detayı">{{ record.description }}</textarea>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputStart" class="col-sm-2 control-label">Planlanan Başlangıç</label>
+    <label for="inputPlannedStart" class="col-sm-2 control-label">Planlanan Başlangıç</label>
     <div class="col-sm-4">
-      <input name="password" type="text" class="form-control datepicker" id="inputStart" placeholder="Planlanan Başlangıç" value="{{ selectedUser.password }}">
+      <input name="form[plannedStart]" type="text" class="form-control datepicker" id="inputPlannedStart" placeholder="Planlanan Başlangıç" value="{{ record.plannedStart }}">
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEnd" class="col-sm-2 control-label">Planlanan Bitiş</label>
+    <label for="inputPlannedEnd" class="col-sm-2 control-label">Planlanan Bitiş</label>
     <div class="col-sm-4">
-      <input name="password" type="text" class="form-control datepicker" id="inputEnd" placeholder="Planlanan Bitiş" value="{{ selectedUser.password }}">
+      <input name="form[plannedEnd]" type="text" class="form-control datepicker" id="inputPlannedEnd" placeholder="Planlanan Bitiş" value="{{ record.plannedEnd }}">
     </div>
   </div>
 
   <div class="form-group">
-    <label for="inputPassword" class="col-sm-2 control-label">Atanan kişi</label>
+    <label for="inputAssignedTo" class="col-sm-2 control-label">Atanan kişi</label>
     <div class="col-sm-4">
-      <select class="form-control">
+      <select class="form-control" name="form[assignedTo]" id="inputAssignedTo">
         <option value="">Henüz atanmamış</option>
         {% for user in users %}
-        <option value="{{ user._id }}">{{ user.name }}</option>
+          <option value="{{ user._id }}" {% if record.assignedTo == user._id+'' %}selected{% endif %}>
+            {{ user.name }}
+          </option>
         {% endfor %}
       </select>
     </div>
   </div>
 
   <div class="form-group">
-    <label for="inputPassword" class="col-sm-2 control-label">İş Türleri</label>
+    <label for="inputJobTypes" class="col-sm-2 control-label">İş Türleri</label>
     <div class="col-sm-4">
       {% for jobtype in jobtypes %}
-      <div class="checkbox"><label><input type="checkbox" value="{{ jobtype._id }}"> {{ jobtype.name }}</label></div>
+        <div class="checkbox">
+          <label>
+            <input name="form[jobTypes]" type="checkbox" value="{{ jobtype._id }}"
+            {% if record.jobTypes.indexOf(jobtype._id+'') > -1 %}checked{% endif %}
+            >
+            {{ jobtype.name }}
+          </label>
+        </div>
       {% endfor %}
     </div>
   </div>

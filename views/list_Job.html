@@ -1,1 +1,24 @@
-iş listesi tablosu
+<table class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>Adı</th>
+      <th>Açıklama</th>
+      <th>Planlanan başlangıç</th>
+      <th>Planlanan bitiş</th>
+      <th>Oluşturan</th>
+      <th>Atanan</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in records %}
+      <tr>
+        <td><a href="/edit/{{ modelName }}/{{ record._id }}">{{ record.title }}</a></td>
+        <td>{{ record.description }}</td>
+        <td>{{ record.plannedStart }}</td>
+        <td>{{ record.plannedEnd }}</td>
+        <td>{{ record.createdBy.name }}</td>
+        <td>{{ record.assignedTo.name }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,5 +1,9 @@
 'use strict'
 
+process.on('uncaughtException', function (err) {
+  console.error(err.stack || err)
+})
+
 const app = require('./app')
 
 const http = require('http')
