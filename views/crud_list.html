@@ -5,6 +5,10 @@
 <a href="/new/{{ modelName }}" class="btn btn-primary pull-right">Yeni {{ name }} Ekle</a>
 <h1 class="page-header">{{ name }} Listesi</h1>
 
-{% include "./list_" + modelName + ".html" %}
+{% if records.length === 0 %}
+  <p>Gösterilecek kayıt yok</p>
+{% else %}
+  {% include "./list_" + modelName + ".html" %}
+{% endif %}
 
 {% endblock %}

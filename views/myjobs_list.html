@@ -1,0 +1,36 @@
+{% extends "./layout.html" %}
+
+{% block pageContent %}
+
+<h1 class="page-header">İşlerim</h1>
+
+{% if records.length == 0 %}
+<p>Şu anda size atanan bir iş yok.</p>
+{% else %}
+
+<table class="table table-hover table-condensed">
+  <thead>
+    <tr>
+      <th>İş adı</th>
+      <th>Açıklama</th>
+      <th>Planlanan başlangıç</th>
+      <th>Planlanan bitiş</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in records %}
+      <tr>
+        <td><a href="/isdetayim/{{ record._id }}">{{ record.title }}</a></td>
+        <td>{{ record.description }}</td>
+        <td>{{ record.plannedStart }}</td>
+        <td>{{ record.plannedEnd }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{{ records }}
+
+{% endif %}
+
+{% endblock %}

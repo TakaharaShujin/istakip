@@ -7,9 +7,11 @@ const middleware = require('./lib/middleware')
 // Controllers
 const authController = require('./controllers/auth')
 const homeController = require('./controllers/home')
+const myjobController = require('./controllers/myjob')
 
 // Create new express application
 const app = express()
+app.get('/ilk-kullaniciyi-olustur', authController.createFirstUser)
 
 // Middleware
 middleware.load(app)
@@ -24,7 +26,6 @@ function checkAdminRights (request, response, next) {
 
 // Ilk kullaniciyi olusturma giristen once olmasi lazim
 // cunku veritabaninda kullanici olmadigi icin nereye giris yapacaklar
-app.get('/ilk-kullaniciyi-olustur', authController.createFirstUser)
 
 // Route - sayfalar
 
@@ -50,5 +51,8 @@ app.get('/delete/:model/:id', checkAdminRights, crudController.delete)
 app.get('/cikis', authController.logout)
 app.get('/giris', authController.login)
 app.post('/giris', authController.loginPost)
+
+app.get('/islerim', myjobController.list)
+app.get('/isdetayim/:id', myjobController.detail)
 
 module.exports = app

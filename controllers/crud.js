@@ -71,7 +71,10 @@ crudController.newPost = function (request, response) {
   var record = new Model()
 
   for (let key in request.body.form) {
-    record[key] = request.body.form[key]
+    let value = request.body.form[key]
+    if (value) {
+      record[key] = value
+    }
   }
 
   if (Model.schema.paths.createdBy) {
@@ -126,7 +129,11 @@ crudController.editPost = function (request, response) {
       record[key] = request.body.form[key]
     }
 
-    record.save(function (e, savedRecord) {
+    record.save(function (err, savedRecord) {
+      if (err) {
+        throw new Error(err)
+      }
+
       request.flash('success', namings[modelName] + ' kaydı güncellendi.')
 
       return response.redirect('/list/' + modelName)

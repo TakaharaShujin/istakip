@@ -1,0 +1,66 @@
+{% extends "./layout.html" %}
+
+{% block pageContent %}
+
+
+<div class="row">
+<div class="col-md-4">
+
+<h2 class="page-header">İş detayı: {{ record.title }}</h2>
+
+<dl class="dl-horizontal">
+  <dt>İş adı</dt>
+  <dd>{{ record.title }}</dd>
+  <dt>İş açıklaması</dt>
+  <dd>{{ record.description }}</dd>
+  <dt>Atanan</dt>
+  <dd>{{ record.assignedTo.name }}</dd>
+  <dt>İşi ekleyen</dt>
+  <dd>{{ record.createdBy.name }}</dd>
+  <dt>İş oluşturma</dt>
+  <dd>{{ moment(record.createdAt).fromNow() }}</dd>
+  <dt>İş bitiş</dt>
+  <dd>{{ record.jobEnd }}</dd>
+</dl>
+
+<h3>Alt işler</h3>
+<ul>
+{% for jobtype in record.jobTypes %}
+<li>{{ jobtype.name }}</li>
+{% endfor %}
+</ul>
+
+
+</div>
+<div class="col-md-8">
+<h2 class="page-header">İş akışı günlüğü</h2>
+<table class="table table-condensed table-hover">
+<thead>
+  <tr>
+    <th>Tarih</th>
+    <th>İşlemi yapan</th>
+    <th>İşlem türü</th>
+    <th>Yorum/Bilgi</th>
+  </tr>
+</thead>
+<tbody>
+
+{% for history in record.history %}
+
+<tr>
+  <td>{{ moment(history.date).format('DD MMMM YYYY HH:mm') }}</td>
+  <td>{{ history.user.name }}</td>
+  <td>{{ historyTypes[history.historyType] }}</td>
+  <td>{{ history.assignedTo.name }}{{ history.comment }}</td>
+</tr>
+  
+{% endfor %}
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+
+{% endblock %}

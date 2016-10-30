@@ -12,19 +12,6 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="inputPlannedStart" class="col-sm-2 control-label">Planlanan Başlangıç</label>
-    <div class="col-sm-4">
-      <input name="form[plannedStart]" type="text" class="form-control datepicker" id="inputPlannedStart" placeholder="Planlanan Başlangıç" value="{{ record.plannedStart }}">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPlannedEnd" class="col-sm-2 control-label">Planlanan Bitiş</label>
-    <div class="col-sm-4">
-      <input name="form[plannedEnd]" type="text" class="form-control datepicker" id="inputPlannedEnd" placeholder="Planlanan Bitiş" value="{{ record.plannedEnd }}">
-    </div>
-  </div>
-
-  <div class="form-group">
     <label for="inputAssignedTo" class="col-sm-2 control-label">Atanan kişi</label>
     <div class="col-sm-4">
       <select class="form-control" name="form[assignedTo]" id="inputAssignedTo">
@@ -45,7 +32,7 @@
         <div class="checkbox">
           <label>
             <input name="form[jobTypes]" type="checkbox" value="{{ jobtype._id }}"
-            {% if record.jobTypes.indexOf(jobtype._id+'') > -1 %}checked{% endif %}
+            {% if record.jobTypes %}{% if record.jobTypes.indexOf(jobtype._id+'') > -1 %}checked{% endif %}{% endif %}
             >
             {{ jobtype.name }}
           </label>
