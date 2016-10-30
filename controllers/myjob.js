@@ -4,15 +4,6 @@ const moment = require('moment')
 // Zaman formatı türkçe
 moment.locale('tr')
 
-// History türlerini tanımlıyoruz
-const historyTypes = {
-  JobStarted: 'Oluşturuldu',
-  Assigned: 'Atandı',
-  JobTypeClosed: 'Alt İş kapatıldı',
-  JobTypeReOpened: 'Alt İş açıldı',
-  Commented: 'Yorum yapıldı'
-}
-
 // Modelleri alıyoruz
 const models = require('../lib/db')
 
@@ -49,16 +40,16 @@ myjobController.detail = function (request, response) {
   })
   .populate('createdBy')
   .populate('assignedTo')
-  .populate('jobTypes')
+  .populate('jobTypes.jobtypeId')
   .populate('history.user')
-  .populate('history.assignedTo')
+  .populate('history.historyAssignedTo')
+  .populate('history.jobType')
   .exec(function (e, record) {
     response.render('myjobs_detail.html', {
       user: request.session.user,
       record: record,
       moment: moment,
-      page: 'islerim',
-      historyTypes: historyTypes
+      page: 'islerim'
     })
   })
 }

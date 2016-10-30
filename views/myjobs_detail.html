@@ -2,6 +2,7 @@
 
 {% block pageContent %}
 
+<input type="hidden" id="JobId" value="{{ record._id }}" />
 
 <div class="row">
 <div class="col-md-4">
@@ -24,22 +25,47 @@
 </dl>
 
 <h3>Alt işler</h3>
-<ul>
-{% for jobtype in record.jobTypes %}
-<li>{{ jobtype.name }}</li>
-{% endfor %}
-</ul>
 
+{% for jobtype in record.jobTypes %}
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" {% if jobtype.status == 'Closed' %}checked{% endif %}>
+      {{ jobtype.jobtypeId.name }}
+      (
+        <a
+          class="jobTypeChangeButton"
+          data-toggle="modal"
+          data-action="{% if jobtype.status == 'Open' %}Closed{% else %}Open{% endif %}"
+          data-id="{{ jobtype.jobtypeId._id }}"
+          data-target="#myModal"
+        >
+          {% if jobtype.status == 'Open' %}Tamamla{% else %}Tekrar aç{% endif %}
+        </a>
+      )
+    </label>
+  </div>
+{% endfor %}
 
 </div>
 <div class="col-md-8">
 <h2 class="page-header">İş akışı günlüğü</h2>
+
+  <div class="row">
+    <div class="col-md-9">
+      <textarea class="form-control" placeholder="Buraya yorum girebilirsiniz"></textarea>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-primary">Yorum yap</a>
+    </div>
+  </div>
+  <hr />
+
 <table class="table table-condensed table-hover">
 <thead>
   <tr>
     <th>Tarih</th>
     <th>İşlemi yapan</th>
-    <th>İşlem türü</th>
+    <th>İşlem</th>
     <th>Yorum/Bilgi</th>
   </tr>
 </thead>
@@ -50,7 +76,17 @@
 <tr>
   <td>{{ moment(history.date).format('DD MMMM YYYY HH:mm') }}</td>
   <td>{{ history.user.name }}</td>
-  <td>{{ historyTypes[history.historyType] }}</td>
+  <td>
+    {% if history.historyType == 'JobTypeClosed' %}
+      <b>{{ history.jobType.name }}</b> kapatıldı
+    {% elseif history.historyType == 'JobTypeReOpened' %}
+      <b>{{ history.jobType.name }}</b> açıldı
+    {% elseif history.historyType == 'JobStarted' %}
+      İş oluşturuldu
+    {% elseif history.historyType == 'Assigned' %}
+      İş <b>{{ history.historyAssignedTo.name }}</b> kullanıcısına atandı
+    {% endif %}
+  </td>
   <td>{{ history.assignedTo.name }}{{ history.comment }}</td>
 </tr>
   
@@ -62,5 +98,47 @@
 </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">İş durumunu değiştir</h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="JobTypeId" value="" />
+        <input type="hidden" id="JobTypeAction" value="" />
+        <p>İşi durumunu değiştirmek için lütfen yorum yazınız</p>
+        <textarea class="form-control" placeholder="Yapılanlar" id="JobTypeChangeComment"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+        <button type="button" class="btn btn-primary" onclick="updateJobStatus()">İş Durumunu Değiştir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* global $ */
+
+$(document).on('click', '.jobTypeChangeButton', function () {
+  $('#JobTypeId').val($(this).data('id'))
+  $('#JobTypeAction').val($(this).data('action'))
+})
+
+function updateJobStatus () {
+  $.post('/ajax/changeJobTypeStatus', {
+    JobTypeId: $('#JobTypeId').val(),
+    comment: $('#JobTypeChangeComment').val(),
+    action: $('#JobTypeAction').val(),
+    JobId: $('#JobId').val()
+  }, function () {
+    location.reload()
+  })
+}
+</script>
 
 {% endblock %}

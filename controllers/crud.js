@@ -1,4 +1,5 @@
 // Gerekli modüller
+const _ = require('lodash')
 const moment = require('moment')
 
 // Modelleri alıyoruz
@@ -48,7 +49,10 @@ crudController.list = function (request, response) {
 crudController.new = function (request, response) {
   let modelName = request.params.model
 
-  models.User.find(function (e, users) {
+  models.User.find({
+    isAdministrator: false
+  },
+  function (e, users) {
     models.JobType.find(function (e, jobtypes) {
       return response.render('crud_new.html', {
         modelName: modelName,
@@ -72,7 +76,14 @@ crudController.newPost = function (request, response) {
 
   for (let key in request.body.form) {
     let value = request.body.form[key]
-    if (value) {
+
+    if (key === 'jobTypes') {
+      record[key] = _.map(value, function (obj) {
+        return {
+          jobtypeId: obj
+        }
+      })
+    } else if (value) {
       record[key] = value
     }
   }
@@ -98,7 +109,9 @@ crudController.newPost = function (request, response) {
 crudController.edit = function (request, response) {
   let modelName = request.params.model
 
-  models.User.find(function (e, users) {
+  models.User.find({
+    isAdministrator: false
+  }, function (e, users) {
     models.JobType.find(function (e, jobtypes) {
       models[modelName].findOne({
         _id: request.params.id

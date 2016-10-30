@@ -8,6 +8,7 @@ const middleware = require('./lib/middleware')
 const authController = require('./controllers/auth')
 const homeController = require('./controllers/home')
 const myjobController = require('./controllers/myjob')
+const adminJobController = require('./controllers/adminjob')
 
 // Create new express application
 const app = express()
@@ -52,7 +53,13 @@ app.get('/cikis', authController.logout)
 app.get('/giris', authController.login)
 app.post('/giris', authController.loginPost)
 
+app.get('/isdetayi/:id', checkAdminRights, adminJobController.detail)
+
 app.get('/islerim', myjobController.list)
 app.get('/isdetayim/:id', myjobController.detail)
+
+// AJAX API
+const ajaxController = require('./controllers/ajax')
+app.post('/ajax/changeJobTypeStatus', ajaxController.changeJobTypeStatus)
 
 module.exports = app

@@ -3,21 +3,23 @@
     <tr>
       <th>Adı</th>
       <th>Açıklama</th>
-      <th>Planlanan başlangıç</th>
-      <th>Planlanan bitiş</th>
+      <th>İş Oluşturma</th>
+      <th>İş Bitişi</th>
       <th>Oluşturan</th>
       <th>Atanan</th>
+      <th>Düzenle</th>
     </tr>
   </thead>
   <tbody>
     {% for record in records %}
       <tr>
-        <td><a href="/edit/{{ modelName }}/{{ record._id }}">{{ record.title }}</a></td>
+        <td><a href="/isdetayi/{{ record._id }}">{{ record.title }}</a></td>
         <td>{{ record.description }}</td>
-        <td>{{ record.plannedStart }}</td>
-        <td>{{ record.plannedEnd }}</td>
+        <td>{{ moment(record.createdAt).format('DD MMMM YYYY HH:mm') }}</td>
+        <td>{{ record.finished }}</td>
         <td>{{ record.createdBy.name }}</td>
         <td>{{ record.assignedTo.name }}</td>
+        <td><a href="/edit/{{ modelName }}/{{ record._id }}">Düzenle</a></td>
       </tr>
     {% endfor %}
   </tbody>

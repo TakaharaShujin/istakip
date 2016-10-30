@@ -13,7 +13,7 @@ authController.createFirstUser = function (request, response) {
   })
   newuser.save(function (err) {
     if (err) {
-      console.log(err)
+      throw new Error(err)
       return response.end('Kullanici olusturulamadi')
     } else {
       request.flash('info', 'İlk kullanici olusturuldu!')
