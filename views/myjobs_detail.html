@@ -6,16 +6,20 @@
 
 <div>
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#isdetayi" aria-controls="isdetayi" role="tab" data-toggle="tab">İş Detayı</a></li>
-    <li role="presentation"><a href="#isakisi" aria-controls="isakisi" role="tab" data-toggle="tab">İş Akışı Günlüğü</a></li>
+    <li role="presentation" class="{% if tab === 'isdetayi'%}active{% endif %}">
+      <a href="#isdetayi" aria-controls="isdetayi" role="tab" data-toggle="tab">İş Detayı</a>
+    </li>
+    <li role="presentation" class="{% if tab === 'isakisi'%}active{% endif %}">
+      <a href="#isakisi" aria-controls="isakisi" role="tab" data-toggle="tab">İş Akışı Günlüğü</a>
+    </li>
   </ul>
 
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="isdetayi">
+    <div role="tabpanel" class="tab-pane {% if tab === 'isdetayi'%}active{% endif %}" id="isdetayi">
       {% include "./_jobdetail_info.html" %}
 
     </div>
-    <div role="tabpanel" class="tab-pane" id="isakisi">
+    <div role="tabpanel" class="tab-pane {% if tab === 'isakisi'%}active{% endif %}" id="isakisi">
       {% include "./_jobdetail_history.html" %}
     </div>
   </div>
@@ -52,6 +56,18 @@ $(document).on('click', '.jobTypeChangeButton', function () {
   $('#JobTypeAction').val($(this).data('action'))
 })
 
+function writeComment () {
+  console.log('comment = ' + $('#JobComment').val())
+  console.log('job id = ' + $('#JobId').val())
+
+  $.post('/ajax/comment', {
+    comment: $('#JobComment').val(),
+    JobId: $('#JobId').val()
+  }, function () {
+    return location.href = window.location.href.split('?').shift() + '?tab=isakisi'
+  })
+}
+
 function updateJobStatus () {
   $.post('/ajax/changeJobTypeStatus', {
     JobTypeId: $('#JobTypeId').val(),
@@ -59,7 +75,7 @@ function updateJobStatus () {
     action: $('#JobTypeAction').val(),
     JobId: $('#JobId').val()
   }, function () {
-    location.reload()
+    return location.href = window.location.href.split('?').shift() + '?tab=isdetayi'
   })
 }
 </script>

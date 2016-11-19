@@ -7,6 +7,36 @@ const mongoose = require('mongoose')
 const ajaxController = {}
 
 /**
+ * İşe yorum yazma
+ */
+ajaxController.comment = function (request, response) {
+  // DB den işi bul
+  models.Job.findOne({
+    _id: request.body.JobId
+  }, function (err, job) {
+    if (err) {
+      return response.end(JSON.stringify(err))
+    }
+
+    // Job'ın history'sine comment history'si ekle
+    job.history.push({
+      historyType: 'Commented',
+      user: request.session.user._id,
+      comment: request.body.comment
+    })
+
+    // Job ı güncelle
+    job.save(function (err, record) {
+      if (err) {
+        return response.end(JSON.stringify(err))
+      }
+
+      return response.end('OK')
+    })
+  })
+}
+
+/**
  * İş durumunu güncelleme
  */
 ajaxController.changeJobTypeStatus = function (request, response) {

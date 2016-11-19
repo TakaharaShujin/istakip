@@ -49,6 +49,7 @@ myjobController.detail = function (request, response) {
       user: request.session.user,
       record: record,
       moment: moment,
+      tab: request.query.tab || 'isdetayi',
       page: 'islerim'
     })
   })

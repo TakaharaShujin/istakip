@@ -61,5 +61,6 @@ app.get('/isdetayim/:id', myjobController.detail)
 // AJAX API
 const ajaxController = require('./controllers/ajax')
 app.post('/ajax/changeJobTypeStatus', ajaxController.changeJobTypeStatus)
+app.post('/ajax/comment', ajaxController.comment)
 
 module.exports = app
