@@ -4,98 +4,21 @@
 
 <input type="hidden" id="JobId" value="{{ record._id }}" />
 
-<div class="row">
-<div class="col-md-4">
+<div>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#isdetayi" aria-controls="isdetayi" role="tab" data-toggle="tab">İş Detayı</a></li>
+    <li role="presentation"><a href="#isakisi" aria-controls="isakisi" role="tab" data-toggle="tab">İş Akışı Günlüğü</a></li>
+  </ul>
 
-<h2 class="page-header">İş detayı: {{ record.title }}</h2>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="isdetayi">
+      {% include "./_jobdetail_info.html" %}
 
-<dl class="dl-horizontal">
-  <dt>İş adı</dt>
-  <dd>{{ record.title }}</dd>
-  <dt>İş açıklaması</dt>
-  <dd>{{ record.description }}</dd>
-  <dt>Atanan</dt>
-  <dd>{{ record.assignedTo.name }}</dd>
-  <dt>İşi ekleyen</dt>
-  <dd>{{ record.createdBy.name }}</dd>
-  <dt>İş oluşturma</dt>
-  <dd>{{ moment(record.createdAt).fromNow() }}</dd>
-  <dt>İş bitiş</dt>
-  <dd>{{ record.jobEnd }}</dd>
-</dl>
-
-<h3>Alt işler</h3>
-
-{% for jobtype in record.jobTypes %}
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" {% if jobtype.status == 'Closed' %}checked{% endif %}>
-      {{ jobtype.jobtypeId.name }}
-      (
-        <a
-          class="jobTypeChangeButton"
-          data-toggle="modal"
-          data-action="{% if jobtype.status == 'Open' %}Closed{% else %}Open{% endif %}"
-          data-id="{{ jobtype.jobtypeId._id }}"
-          data-target="#myModal"
-        >
-          {% if jobtype.status == 'Open' %}Tamamla{% else %}Tekrar aç{% endif %}
-        </a>
-      )
-    </label>
-  </div>
-{% endfor %}
-
-</div>
-<div class="col-md-8">
-<h2 class="page-header">İş akışı günlüğü</h2>
-
-  <div class="row">
-    <div class="col-md-9">
-      <textarea class="form-control" placeholder="Buraya yorum girebilirsiniz"></textarea>
     </div>
-    <div class="col-md-3">
-      <a class="btn btn-primary">Yorum yap</a>
+    <div role="tabpanel" class="tab-pane" id="isakisi">
+      {% include "./_jobdetail_history.html" %}
     </div>
   </div>
-  <hr />
-
-<table class="table table-condensed table-hover">
-<thead>
-  <tr>
-    <th>Tarih</th>
-    <th>İşlemi yapan</th>
-    <th>İşlem</th>
-    <th>Yorum/Bilgi</th>
-  </tr>
-</thead>
-<tbody>
-
-{% for history in record.history %}
-
-<tr>
-  <td>{{ moment(history.date).format('DD MMMM YYYY HH:mm') }}</td>
-  <td>{{ history.user.name }}</td>
-  <td>
-    {% if history.historyType == 'JobTypeClosed' %}
-      <b>{{ history.jobType.name }}</b> kapatıldı
-    {% elseif history.historyType == 'JobTypeReOpened' %}
-      <b>{{ history.jobType.name }}</b> açıldı
-    {% elseif history.historyType == 'JobStarted' %}
-      İş oluşturuldu
-    {% elseif history.historyType == 'Assigned' %}
-      İş <b>{{ history.historyAssignedTo.name }}</b> kullanıcısına atandı
-    {% endif %}
-  </td>
-  <td>{{ history.assignedTo.name }}{{ history.comment }}</td>
-</tr>
-  
-{% endfor %}
-
-</tbody>
-</table>
-
-</div>
 </div>
 
 

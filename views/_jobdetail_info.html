@@ -1,0 +1,38 @@
+<h2>İş detayı: {{ record.title }}</h2>
+
+<dl class="dl-horizontal">
+  <dt>İş adı</dt>
+  <dd>{{ record.title }}</dd>
+  <dt>İş açıklaması</dt>
+  <dd>{{ record.description }}</dd>
+  <dt>Atanan</dt>
+  <dd>{{ record.assignedTo.name }}</dd>
+  <dt>İşi ekleyen</dt>
+  <dd>{{ record.createdBy.name }}</dd>
+  <dt>İş oluşturma</dt>
+  <dd>{{ moment(record.createdAt).fromNow() }}</dd>
+  <dt>İş bitiş</dt>
+  <dd>{{ record.jobEnd }}</dd>
+</dl>
+
+<h3>Alt işler</h3>
+
+{% for jobtype in record.jobTypes %}
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" {% if jobtype.status == 'Closed' %}checked{% endif %}>
+      {{ jobtype.jobtypeId.name }}
+      (
+        <a
+          class="jobTypeChangeButton"
+          data-toggle="modal"
+          data-action="{% if jobtype.status == 'Open' %}Closed{% else %}Open{% endif %}"
+          data-id="{{ jobtype.jobtypeId._id }}"
+          data-target="#myModal"
+        >
+          {% if jobtype.status == 'Open' %}Tamamla{% else %}Tekrar aç{% endif %}
+        </a>
+      )
+    </label>
+  </div>
+{% endfor %}

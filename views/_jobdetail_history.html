@@ -1,0 +1,46 @@
+<h2>İş akışı günlüğü</h2>
+
+  <div class="row">
+    <div class="col-md-9">
+      <textarea class="form-control" placeholder="Buraya yorum girebilirsiniz"></textarea>
+    </div>
+    <div class="col-md-3">
+      <a class="btn btn-primary">Yorum yap</a>
+    </div>
+  </div>
+  <hr />
+
+<table class="table table-condensed table-hover">
+<thead>
+  <tr>
+    <th>Tarih</th>
+    <th>İşlemi yapan</th>
+    <th>İşlem</th>
+    <th>Yorum/Bilgi</th>
+  </tr>
+</thead>
+<tbody>
+
+{% for history in record.history %}
+
+<tr>
+  <td>{{ moment(history.date).format('DD MMMM YYYY HH:mm') }}</td>
+  <td>{{ history.user.name }}</td>
+  <td>
+    {% if history.historyType == 'JobTypeClosed' %}
+      <b>{{ history.jobType.name }}</b> kapatıldı
+    {% elseif history.historyType == 'JobTypeReOpened' %}
+      <b>{{ history.jobType.name }}</b> açıldı
+    {% elseif history.historyType == 'JobStarted' %}
+      İş oluşturuldu
+    {% elseif history.historyType == 'Assigned' %}
+      İş <b>{{ history.historyAssignedTo.name }}</b> kullanıcısına atandı
+    {% endif %}
+  </td>
+  <td>{{ history.assignedTo.name }}{{ history.comment }}</td>
+</tr>
+  
+{% endfor %}
+
+</tbody>
+</table>
