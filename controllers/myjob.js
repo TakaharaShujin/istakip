@@ -18,7 +18,7 @@ myjobController.list = function (request, response) {
   .find({
     assignedTo: request.session.user._id
   })
- // .populate()
+  .populate('createdBy')
   .exec(function (e, records) {
     response.render('myjobs_list.html', {
       user: request.session.user,
