@@ -29,6 +29,41 @@ function checkAdminRights (request, response, next) {
 // cunku veritabaninda kullanici olmadigi icin nereye giris yapacaklar
 
 // Route - sayfalar
+const models = require('./lib/db')
+
+/**
+ * Controllerlara gidecek tum requestlere count lari da eklemek icin middleware
+ */
+app.use(function (request, response, next) {
+  request.counts = {}
+
+  models.Job.count(function (e, JobCount) {
+    request.counts.Job = JobCount
+
+    models.User.count(function (e, UserCount) {
+      request.counts.User = UserCount
+
+      models.JobType.count(function (e, JobTypeCount) {
+        request.counts.JobType = JobTypeCount
+
+        models.Job.count({
+          isOpened: false,
+          assignedTo: request.session.user._id
+        }, function (e, UnreadJobCount) {
+          request.counts.UnreadJobCount = UnreadJobCount
+        })
+
+        models.Job.count({
+          assignedTo: request.session.user._id
+        }, function (e, MyJobCount) {
+          request.counts.MyJobCount = MyJobCount
+
+          next()
+        })
+      })
+    })
+  })
+})
 
 app.get('/', homeController.home)
 

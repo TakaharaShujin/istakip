@@ -2,6 +2,9 @@
 const models = require('../lib/db')
 const moment = require('moment')
 
+// Render metodumuz
+const render = require('../lib/render')
+
 // Zaman formatı türkçe
 moment.locale('tr')
 
@@ -22,13 +25,13 @@ adminJobController.detail = function (request, response) {
   .populate('history.user')
   .populate('history.assignedTo')
   .exec(function (e, record) {
-    response.render('myjobs_detail.html', {
-      user: request.session.user,
+    const params = {
       record: record,
-      moment: moment,
       tab: request.query.tab || 'isdetayi',
       modelName: 'Job'
-    })
+    }
+
+    return render(request, response, 'myjobs_detail.html', params)
   })
 }
 

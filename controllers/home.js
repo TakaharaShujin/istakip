@@ -1,11 +1,15 @@
+// Render metodumuz
+const render = require('../lib/render')
+
 // homeController nesnesini olusturuyoruz
 const homeController = {}
 
 homeController.home = function (request, response) {
-  return response.render('anasayfa.html', {
-    page: 'anasayfa',
-    user: request.session.user
-  })
+  const params = {
+    page: 'anasayfa'
+  }
+
+  return render(request, response, 'anasayfa.html', params)
 }
 
 // homeController nesnesini module haline getiriyoruz

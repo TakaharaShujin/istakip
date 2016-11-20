@@ -16,6 +16,10 @@
   <script src="/bower/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="/bower/bootstrap-datepicker/dist/locales/bootstrap-datepicker.tr.min.js"></script>
   <script src="/bower/AdminLTE/dist/js/app.min.js"></script>
+
+  <style>
+    table tr.unread * { font-weight: bold; }
+  </style>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -50,7 +54,12 @@
         </li>
         <li class="{% if page =='islerim'%}active{% endif %}">
           <a href="/islerim">
-            <i class="fa fa-folder-open-o"></i> İşlerim
+            <i class="fa fa-folder-open-o"></i>
+            <span>İşlerim</span>
+            <span class="pull-right-container">
+                <span class="label label-primary pull-right">{{ counts.MyJobCount }}</span>
+                {% if counts.UnreadJobCount %}<span class="label label-danger pull-right">{{ counts.UnreadJobCount }} yeni</span>{% endif %}
+              </span>
           </a>
         </li>
 
@@ -58,17 +67,29 @@
           <li class="header">Yönetim</li>
           <li class="{% if modelName =='User'%}active{% endif %}">
             <a href="/list/User">
-              <i class="fa fa-user-o"></i> Kullanıcılar
+              <i class="fa fa-user-o"></i>
+              <span>Kullanıcılar</span>
+              <span class="pull-right-container">
+                <span class="label label-primary pull-right">{{ counts.User }}</span>
+              </span>
             </a>
           </li>
           <li class="{% if modelName =='Job'%}active{% endif %}">
             <a href="/list/Job">
-              <i class="fa fa-tasks"></i> İşler
+              <i class="fa fa-tasks"></i>
+              <span>İşler</span>
+              <span class="pull-right-container">
+                <span class="label label-primary pull-right">{{ counts.Job }}</span>
+              </span>
             </a>
           </li>
           <li class="{% if modelName =='JobType'%}active{% endif %}">
             <a href="/list/JobType">
-              <i class="fa fa-list-ul"></i> İş Türleri
+              <i class="fa fa-list-ul"></i>
+              <span>İş Türleri</span>
+              <span class="pull-right-container">
+                <span class="label label-primary pull-right">{{ counts.JobType }}</span>
+              </span>
             </a>
           </li>
         {% endif %}

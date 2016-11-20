@@ -2,6 +2,9 @@
 const _ = require('lodash')
 const moment = require('moment')
 
+// Render metodumuz
+const render = require('../lib/render')
+
 // Modelleri alıyoruz
 const models = require('../lib/db')
 
@@ -33,13 +36,13 @@ crudController.list = function (request, response) {
   }
 
   getter.exec(function (e, records) {
-    return response.render('crud_list.html', {
+    const params = {
       modelName: modelName,
       name: namings[modelName],
-      user: request.session.user,
-      records: records,
-      moment: moment
-    })
+      records: records
+    }
+
+    return render(request, response, 'crud_list.html', params)
   })
 }
 
@@ -54,13 +57,14 @@ crudController.new = function (request, response) {
   },
   function (e, users) {
     models.JobType.find(function (e, jobtypes) {
-      return response.render('crud_new.html', {
+      const params = {
         modelName: modelName,
         name: namings[modelName],
-        user: request.session.user,
         users: users,
         jobtypes: jobtypes
-      })
+      }
+
+      return render(request, response, 'crud_new.html', params)
     })
   })
 }
@@ -116,14 +120,15 @@ crudController.edit = function (request, response) {
       models[modelName].findOne({
         _id: request.params.id
       }, function (e, record) {
-        return response.render('crud_edit.html', {
+        const params = {
           modelName: modelName,
           name: namings[modelName],
-          user: request.session.user,
           record: record,
           users: users,
           jobtypes: jobtypes
-        })
+        }
+
+        return render(request, response, 'crud_edit.html', params)
       })
     })
   })

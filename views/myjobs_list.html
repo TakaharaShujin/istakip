@@ -17,17 +17,15 @@
           <th>Adı</th>
           <th>Açıklama</th>
           <th>İş Oluşturma</th>
-          <th>İş Bitişi</th>
           <th>Oluşturan</th>
         </tr>
       </thead>
       <tbody>
         {% for record in records %}
-          <tr>
+          <tr class="{% if record.isOpened === false %}unread{% endif %}">
             <td><a href="/isdetayim/{{ record._id }}">{{ record.title }}</a></td>
             <td>{{ record.description }}</td>
             <td>{{ moment(record.createdAt).format('DD MMMM YYYY HH:mm') }}</td>
-            <td>{{ record.finished }}</td>
             <td>{{ record.createdBy.name }}</td>
           </tr>
         {% endfor %}

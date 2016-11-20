@@ -7,6 +7,9 @@ moment.locale('tr')
 // Modelleri alıyoruz
 const models = require('../lib/db')
 
+// Render metodumuz
+const render = require('../lib/render')
+
 // Controller ı tanımlıyoruz
 const myjobController = {}
 
@@ -20,12 +23,12 @@ myjobController.list = function (request, response) {
   })
   .populate('createdBy')
   .exec(function (e, records) {
-    response.render('myjobs_list.html', {
-      user: request.session.user,
-      records: records,
-      moment: moment,
-      page: 'islerim'
-    })
+    const params = {
+      page: 'islerim',
+      records: records
+    }
+
+    return render(request, response, 'myjobs_list.html', params)
   })
 }
 
@@ -45,13 +48,19 @@ myjobController.detail = function (request, response) {
   .populate('history.historyAssignedTo')
   .populate('history.jobType')
   .exec(function (e, record) {
-    response.render('myjobs_detail.html', {
-      user: request.session.user,
+    if (!record.isOpened) {
+      record.isOpened = true
+      record.save()
+      request.counts.UnreadJobCount--
+    }
+
+    const params = {
+      page: 'islerim',
       record: record,
-      moment: moment,
-      tab: request.query.tab || 'isdetayi',
-      page: 'islerim'
-    })
+      tab: request.query.tab || 'isdetayi'
+    }
+
+    return render(request, response, 'myjobs_detail.html', params)
   })
 }
 
