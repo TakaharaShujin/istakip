@@ -14,7 +14,7 @@
         <td><a href="/edit/User/{{ record._id }}">{{ record.name }}</a></td>
         <td>{{ record.email }}</td>
         <td>{{ moment(record.createdAt).format('DD MMMM YYYY') }}</td>
-        <td>{{ moment(record.updatedAt).fromNow() }}</td>
+        <td>{{ moment(record.updatedAt).format('DD MMMM YYYY HH:mm') }}</td>
         <td>{% if record.isAdministrator %}Evet{% else %}Hayır{% endif %}</td>
       </tr>
     {% endfor %}
