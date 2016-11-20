@@ -31,6 +31,11 @@ function checkAdminRights (request, response, next) {
 // Route - sayfalar
 const models = require('./lib/db')
 
+app.get('/cikis', authController.logout)
+app.get('/giris', authController.login)
+app.post('/giris', authController.loginPost)
+
+
 /**
  * Controllerlara gidecek tum requestlere count lari da eklemek icin middleware
  */
@@ -83,10 +88,6 @@ app.get('/edit/:model/:id', checkAdminRights, crudController.edit)
 app.post('/edit/:model/:id', checkAdminRights, crudController.editPost)
 
 app.get('/delete/:model/:id', checkAdminRights, crudController.delete)
-
-app.get('/cikis', authController.logout)
-app.get('/giris', authController.login)
-app.post('/giris', authController.loginPost)
 
 app.get('/isdetayi/:id', checkAdminRights, adminJobController.detail)
 

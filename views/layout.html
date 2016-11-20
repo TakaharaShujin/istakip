@@ -41,7 +41,12 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <li><a>{{ user.name }}</a></li>
+          <li>
+            <a>
+              <img style="margin-right: 5px;" src="https://www.gravatar.com/avatar/{{ userEmailHash }}?s=20" />
+              {{ user.name }}
+            </a>
+          </li>
           <li><a href="/cikis">Çıkış yap</a></li>
         </ul>
       </div>
