@@ -1,15 +1,18 @@
 {% extends "./layout.html" %}
 
+
 {% block title %}
   <b>İş bilgileri</b>: {{ record.title }}
 {% endblock %}
 
 {% block pageContent %}
 
+<h1 class="printOnly"><b>İş bilgileri</b>: {{ record.title }}</h1>
+
 <input type="hidden" id="JobId" value="{{ record._id }}" />
 
 <div>
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="printNoShow nav nav-tabs" role="tablist">
     <li role="presentation" class="{% if tab === 'isdetayi'%}active{% endif %}">
       <a href="#isdetayi" aria-controls="isdetayi" role="tab" data-toggle="tab">İş Detayı</a>
     </li>
@@ -24,7 +27,7 @@
       {% include "./_jobdetail_info.html" %}
 
     </div>
-    <div role="tabpanel" class="tab-pane {% if tab === 'isakisi'%}active{% endif %}" id="isakisi">
+    <div role="tabpanel" class="printNoShow tab-pane {% if tab === 'isakisi'%}active{% endif %}" id="isakisi">
       <p>&nbsp;</p>
       {% include "./_jobdetail_history.html" %}
     </div>
