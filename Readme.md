@@ -5,8 +5,7 @@ Node.js öğrenme/öğretme amacıyla yapılmış örnek bir uygulama.
 ### Gereksinimler:
 * Git (https://git-scm.com/download/win)
 * Node.js (https://nodejs.org/en/download/)
-* Bower (npm install -g bower)
-* Nodemon (npm install -g nodemon)
+* Nodemon (npm install -g nodemon) - Geliştirmek için
 * Redis (https://github.com/MSOpenTech/redis/releases)
 * MongoDB (https://www.mongodb.com/download-center)
 
@@ -23,7 +22,11 @@ cd istakip
 Gerekli NPM ve Bower modülleri kurulur:
 ```sh
 npm install
-bower install
+```
+Redis ve MongoDB bağlantı bilgileri ortam değişkeni olarak kaydedilir. Proje localde çalışıyorsa gerek yoktur. Örneğin:
+```
+process.env.REDIS_URL = 'redis://localhost:6379'
+process.env.MONGODB_URI = 'mongodb://localhost/istakip'
 ```
 
 Proje nodemon ile çalıştırılır:
