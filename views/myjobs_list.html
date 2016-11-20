@@ -1,37 +1,37 @@
 {% extends "./layout.html" %}
 
+{% block title %}
+  İşlerim
+{% endblock %}
+
+{% block boxBodyClass %}table-responsive no-padding{% endblock %}
+
 {% block pageContent %}
+  {% if records.length == 0 %}
+    <p>Şu anda size atanan bir iş yok.</p>
+    {% else %}
 
-<h1 class="page-header">İşlerim</h1>
-
-{% if records.length == 0 %}
-<p>Şu anda size atanan bir iş yok.</p>
-{% else %}
-
-<table class="table table-condensed table-hover">
-  <thead>
-    <tr>
-      <th>Adı</th>
-      <th>Açıklama</th>
-      <th>İş Oluşturma</th>
-      <th>İş Bitişi</th>
-      <th>Oluşturan</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for record in records %}
-      <tr>
-        <td><a href="/isdetayim/{{ record._id }}">{{ record.title }}</a></td>
-        <td>{{ record.description }}</td>
-        <td>{{ moment(record.createdAt).format('DD MMMM YYYY HH:mm') }}</td>
-        <td>{{ record.finished }}</td>
-        <td>{{ record.createdBy.name }}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-
-{% endif %}
-
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Adı</th>
+          <th>Açıklama</th>
+          <th>İş Oluşturma</th>
+          <th>İş Bitişi</th>
+          <th>Oluşturan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+          <tr>
+            <td><a href="/isdetayim/{{ record._id }}">{{ record.title }}</a></td>
+            <td>{{ record.description }}</td>
+            <td>{{ moment(record.createdAt).format('DD MMMM YYYY HH:mm') }}</td>
+            <td>{{ record.finished }}</td>
+            <td>{{ record.createdBy.name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
 {% endblock %}

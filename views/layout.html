@@ -5,49 +5,104 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>İşTakip - Anasayfa</title>
-  <link href="/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/bower/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
-  <link href="/static/dashboard.css" rel="stylesheet">
+  <link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/bower/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="/bower/AdminLTE/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/bower/AdminLTE/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/bower/font-awesome/css/font-awesome.min.css">
 
   <script src="/bower/jquery/dist/jquery.min.js"></script>
   <script src="/bower/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/bower/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="/bower/bootstrap-datepicker/dist/locales/bootstrap-datepicker.tr.min.js"></script>
+  <script src="/bower/AdminLTE/dist/js/app.min.js"></script>
 </head>
-<body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <a href="index2.html" class="logo">
+      <span class="logo-mini">İştakip</span>
+      <span class="logo-lg">İştakip</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Menu</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">İşTakip</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a>{{ user.name }}</a></li>
-        <li><a href="/cikis">Çıkış yap</a></li>
+      </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li><a>{{ user.name }}</a></li>
+          <li><a href="/cikis">Çıkış yap</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <aside class="main-sidebar">
+    <section class="sidebar">
+
+      <ul class="sidebar-menu">
+        <li class="{% if page =='anasayfa'%}active{% endif %}">
+          <a href="/">
+            <i class="fa fa-home"></i> Giriş
+          </a>
+        </li>
+        <li class="{% if page =='islerim'%}active{% endif %}">
+          <a href="/islerim">
+            <i class="fa fa-folder-open-o"></i> İşlerim
+          </a>
+        </li>
+
+        {% if user.isAdministrator %}
+          <li class="header">Yönetim</li>
+          <li class="{% if modelName =='User'%}active{% endif %}">
+            <a href="/list/User">
+              <i class="fa fa-user-o"></i> Kullanıcılar
+            </a>
+          </li>
+          <li class="{% if modelName =='Job'%}active{% endif %}">
+            <a href="/list/Job">
+              <i class="fa fa-tasks"></i> İşler
+            </a>
+          </li>
+          <li class="{% if modelName =='JobType'%}active{% endif %}">
+            <a href="/list/JobType">
+              <i class="fa fa-list-ul"></i> İş Türleri
+            </a>
+          </li>
+        {% endif %}
       </ul>
-    </div>
-  </div>
-</nav>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      {% include "./_leftMenu.html" %}
-    </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      {% include "./_alerts.html" %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      {% block rightButton %}{% endblock %}
 
-      {% block pageContent %}{% endblock %}
-    </div>
+      <h1>
+        {% block title %}{% endblock %}
+      </h1>
+    </section>
+
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-body {% block boxBodyClass %}{% endblock %}">
+              {% block pageContent %}{% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2016 <a href="https://github.com/yasinaydin/istakip">İşTakip</a>.</strong>
+  </footer>
+
 </div>
-
 </body>
 </html>

@@ -16,6 +16,8 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "bootstrap-datepicker": "^1.6.4"
+    "bootstrap-datepicker": "^1.6.4",
+    "AdminLTE": "adminlte#^2.3.8",
+    "font-awesome": "^4.7.0"
   }
 }

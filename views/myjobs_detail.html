@@ -1,5 +1,9 @@
 {% extends "./layout.html" %}
 
+{% block title %}
+  <b>İş bilgileri</b>: {{ record.title }}
+{% endblock %}
+
 {% block pageContent %}
 
 <input type="hidden" id="JobId" value="{{ record._id }}" />
@@ -16,10 +20,12 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane {% if tab === 'isdetayi'%}active{% endif %}" id="isdetayi">
+      <p>&nbsp;</p>
       {% include "./_jobdetail_info.html" %}
 
     </div>
     <div role="tabpanel" class="tab-pane {% if tab === 'isakisi'%}active{% endif %}" id="isakisi">
+      <p>&nbsp;</p>
       {% include "./_jobdetail_history.html" %}
     </div>
   </div>
